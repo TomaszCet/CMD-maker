@@ -1,4 +1,4 @@
-package sample;
+package com.tcdevelopment.cmdMaker;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

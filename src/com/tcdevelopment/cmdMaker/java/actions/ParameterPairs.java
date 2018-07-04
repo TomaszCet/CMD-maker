@@ -1,4 +1,4 @@
-package com.tcdevelopment.cmdMaker.actions;
+package com.tcdevelopment.cmdMaker.java.actions;
 
 public class ParameterPairs {
 

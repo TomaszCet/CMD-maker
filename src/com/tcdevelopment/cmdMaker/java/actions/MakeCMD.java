@@ -1,4 +1,4 @@
-package com.tcdevelopment.cmdMaker.actions;
+package com.tcdevelopment.cmdMaker.java.actions;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,7 +18,7 @@ public class MakeCMD implements EventHandler<ActionEvent> {
     public void handle(ActionEvent event) {
         {
             String[] txtTable = txtText.getText().split(Constants.NEW_LINE);
-            StringBuilder cmdTextBuilder = new StringBuilder(Constants.TC_BEGINING);
+            StringBuilder cmdTextBuilder = new StringBuilder("");
             for (String str: txtTable) {
                 str = replaceParameter(str, new ParameterPairs("cell"));
                 str = replaceParameter(str, new ParameterPairs("tg"));
@@ -44,7 +44,7 @@ public class MakeCMD implements EventHandler<ActionEvent> {
         }
     }
 
-    private String replaceParameter(String str, ParameterPairs pair) {
+    public String replaceParameter(String str, ParameterPairs pair) {
         if (str.contains(pair.getDocParam())) {
             str = str.replace(pair.getDocParam(), pair.getMmlParam());
         }
@@ -53,9 +53,9 @@ public class MakeCMD implements EventHandler<ActionEvent> {
 
     class Constants{
 
-        private static final String NEW_LINE = "\n";
+        public static final String NEW_LINE = "\n";
 
-        private static final String TC_BEGINING = "@CLEAR\n" +
+        public static final String TC_BEGINING = "@CLEAR\n" +
                 "@COMMENT \"Author: etomcet\" \n" +
                 "@SET {tg} =  \n" +
                 "@SET {cell[0]} =   \"\"  \n" +
@@ -64,7 +64,7 @@ public class MakeCMD implements EventHandler<ActionEvent> {
                 "@COMPACT {cell}\n" +
                 "@SIZE {cell} {cellsize}\n" +
                 "\n" +
-                "@PRESERVE ";
+                "@PRESERVE \n";
 
     }
 }

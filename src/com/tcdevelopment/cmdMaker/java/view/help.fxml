@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="194.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tcdevelopment.cmdMaker.java.controller.HelpPaneController">
+   <children>
+      <TextArea editable="false" prefHeight="168.0" prefWidth="600.0" text="Number of TGs/Cells     - How many times line with the command should be replicated&#10;List of TGs/Cells             - put here list of parameters separated by coma:&#10;                                         Example:&#10;                                         tg1,tg2&#10;                                         cell1,cell2&#10;&#10;Lists of parameters have higher priority than the number of parameters declared above.&#10;They do no have to match each other. File will be generated with the number of parameter &#10;lists values" />
+      <Button fx:id="helpBackButton" mnemonicParsing="false" text="Back to the app" />
+   </children>
+</VBox>

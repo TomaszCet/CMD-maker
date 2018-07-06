@@ -1,16 +1,20 @@
 package com.tcdevelopment.cmdMaker.java.controller;
 
-import com.tcdevelopment.cmdMaker.java.actions.AboutStageCreation;
-import com.tcdevelopment.cmdMaker.java.actions.HelpStageCreation;
-import com.tcdevelopment.cmdMaker.java.actions.LabelEditable;
-import com.tcdevelopment.cmdMaker.java.actions.MakeCMD;
+import com.tcdevelopment.cmdMaker.java.actions.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
 
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 public class MainController implements Initializable {
 
@@ -19,6 +23,14 @@ public class MainController implements Initializable {
 
     @FXML
     private TextArea cmdText;
+
+    public TextArea getCmdText() {
+        return cmdText;
+    }
+
+    public TextArea getTxtText() {
+        return txtText;
+    }
 
     @FXML
     private Button transformationButton;
@@ -54,32 +66,12 @@ public class MainController implements Initializable {
         return tgChoiceBox;
     }
 
-    public void setTgChoiceBox(ChoiceBox<Integer> tgChoiceBox) {
-        this.tgChoiceBox = tgChoiceBox;
-    }
-
-    public ChoiceBox<Integer> getCellChoiceBox() {
-        return cellChoiceBox;
-    }
-
-    public void setCellChoiceBox(ChoiceBox<Integer> cellChoiceBox) {
-        this.cellChoiceBox = cellChoiceBox;
-    }
-
     public TextField getListOfTgs() {
         return listOfTgs;
     }
 
-    public void setListOfTgs(TextField listOfTgs) {
-        this.listOfTgs = listOfTgs;
-    }
-
     public TextField getListOfCells() {
         return listOfCells;
-    }
-
-    public void setListOfCells(TextField listOfCells) {
-        this.listOfCells = listOfCells;
     }
 
     @Override
@@ -96,13 +88,46 @@ public class MainController implements Initializable {
 
         tgCheckBox.setOnAction(new LabelEditable(tgCheckBox,listOfTgs));
 
-        cellCheckBox.setOnAction(new LabelEditable(tgCheckBox,listOfTgs));
+        cellCheckBox.setOnAction(new LabelEditable(cellCheckBox,listOfCells));
 
-        transformationButton.setOnAction( new MakeCMD(txtText,cmdText));
+        transformationButton.setOnAction( new MakeCMD(this));
 
         aboutButton.setOnAction(new AboutStageCreation());
 
         helpButton.setOnAction(new HelpStageCreation());
+
+        saveButton.setOnAction(new SaveCmdTextAction(cmdText));
+//                                       EventHandler<ActionEvent>() {
+//
+//            @Override
+//            public void handle(ActionEvent event) {
+//                FileChooser fileChooser = new FileChooser();
+//
+//                //Set extension filter
+//                FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("CMD files (*.cmd)", "*.cmd");
+//                fileChooser.getExtensionFilters().add(extFilter);
+//
+//                //Show save file dialog
+//                File file = fileChooser.showSaveDialog(saveButton.getScene().getWindow());
+//
+//                if(file != null){
+//                    SaveFile(cmdText.getText(), file);
+//                }
+//            }
+//
+//            private void SaveFile(String content, File file){
+//                try {
+//                    FileWriter fileWriter = null;
+//
+//                    fileWriter = new FileWriter(file);
+//                    fileWriter.write(content);
+//                    fileWriter.close();
+//                } catch (IOException ex) {
+//                    System.out.println(ex.toString());
+//                }
+//
+//            }
+//        });
     }
 
 }

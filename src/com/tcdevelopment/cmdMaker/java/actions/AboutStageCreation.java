@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -20,7 +21,8 @@ public class AboutStageCreation implements EventHandler<ActionEvent> {
             aboutParent = FXMLLoader.load(getClass().getResource("../view/about.fxml"));
             aboutStage.setScene(new Scene(aboutParent));
             aboutStage.initModality(Modality.APPLICATION_MODAL);
-            aboutStage.setTitle("About");
+            Image icon = new Image("file:cmdIcon.png");
+            aboutStage.getIcons().add(icon);            aboutStage.setTitle("About");
             aboutStage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();

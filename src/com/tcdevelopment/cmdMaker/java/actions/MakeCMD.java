@@ -1,24 +1,25 @@
 package com.tcdevelopment.cmdMaker.java.actions;
 
+import com.tcdevelopment.cmdMaker.java.controller.MainController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.TextArea;
 
 public class MakeCMD implements EventHandler<ActionEvent> {
 
-    private TextArea txtText;
-    private TextArea cmdText;
 
-    public MakeCMD(TextArea input, TextArea output) {
-        this.txtText = input;
-        this.cmdText = output;
+    private MainController mainController;
+
+    public MakeCMD(MainController mainController) {
+        this.mainController = mainController;
     }
 
     @Override
     public void handle(ActionEvent event) {
         {
-            String[] txtTable = txtText.getText().split(Constants.NEW_LINE);
+            String[] txtTable = mainController.getTxtText().getText().split(Constants.NEW_LINE);
             StringBuilder cmdTextBuilder = new StringBuilder("");
+            cmdTextBuilder.append(Constants.BEFORE_TEST_COMMENT).append(Constants.TC_VARIABLES).append(Constants.MAIN_COMMANDS_SEPARATOR)
+                    .append(Constants.NEW_LINE);
             for (String str: txtTable) {
                 str = replaceParameter(str, new ParameterPairs("cell"));
                 str = replaceParameter(str, new ParameterPairs("tg"));
@@ -30,15 +31,11 @@ public class MakeCMD implements EventHandler<ActionEvent> {
                     cmdTextBuilder.append("! ").append(str).append(" !\n");
                 }
                 else {
-                    int splitPlace = str.indexOf(";")+1;
-                    String cmd = str.substring(0,splitPlace);
-                    String possibleComment = str.substring(splitPlace);
-                    cmdTextBuilder.append(cmd)
-                            .append(possibleComment.trim().length() >= 1 ? "         ! " + possibleComment.trim() + " !" : "")
-                            .append(Constants.NEW_LINE);
+                    MmlCommandMultiplication mmlCommandMultiplication = new MmlCommandMultiplication(str,mainController);
+                    cmdTextBuilder.append(mmlCommandMultiplication.makeOperation());
                 }
             }
-            cmdText.setText(cmdTextBuilder.toString());
+            mainController.getCmdText().setText(cmdTextBuilder.toString());
 
 
         }
@@ -55,16 +52,20 @@ public class MakeCMD implements EventHandler<ActionEvent> {
 
         public static final String NEW_LINE = "\n";
 
-        public static final String TC_BEGINING = "@CLEAR\n" +
-                "@COMMENT \"Author: etomcet\" \n" +
-                "@SET {tg} =  \n" +
+        public static final String TC_VARIABLES = "@CLEAR\n" +
+                "@COMMENT \"GENERATED IN CMDmaker\" \n" +
+                "@SET {tg} =   \"\"  \n" +
                 "@SET {cell[0]} =   \"\"  \n" +
                 "@SET {cell[1]} =   \"\"  \n" +
                 "@SET {cell[2]} =   \"\"  \n" +
-                "@COMPACT {cell}\n" +
-                "@SIZE {cell} {cellsize}\n" +
-                "\n" +
+                "@SET {cell[3]} =   \"\"  \n" +
+                "@COMPACT {cell}\n\n" +
                 "@PRESERVE \n";
 
+        public static final String BEFORE_TEST_COMMENT = "!FILL AND RUN BELOW COMMANDS IF NEEDED!\n\n";
+
+        public static final String MAIN_COMMANDS_SEPARATOR = "!-----------------------------------------------! \n" +
+                                                     "!------------------Main commands----------------! \n" +
+                                                     "!-----------------------------------------------! \n" ;
     }
 }

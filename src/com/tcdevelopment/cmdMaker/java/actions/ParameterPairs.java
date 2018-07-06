@@ -10,16 +10,8 @@ public class ParameterPairs {
         return docParam;
     }
 
-    public void setDocParam(String docParam) {
-        this.docParam = docParam;
-    }
-
     public String getMmlParam() {
         return mmlParam;
-    }
-
-    public void setMmlParam(String mmlParam) {
-        this.mmlParam = mmlParam;
     }
 
     public ParameterPairs(String parameter) {

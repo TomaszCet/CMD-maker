@@ -15,10 +15,10 @@ public class MmlCommandMultiplication {
     }
 
     public String makeOperation(){
+//        initialize parameters
         StringBuilder multipliedLine = new StringBuilder("");
         boolean haveAListOfCells = true;
         boolean haveAListOfTgs = true;
-
         TextField tgList = mainController.getListOfTgs();
         TextField cellList = mainController.getListOfCells();
         String[] tgArray = tgList.getText().split(",");
@@ -26,16 +26,15 @@ public class MmlCommandMultiplication {
         int tgNumber = tgArray.length;
         int cellNumber = cellArray.length;
 
+//        check if lists ara enabled
         if (!tgList.isEditable()){
             tgNumber = mainController.getTgChoiceBox().getValue();
             haveAListOfTgs = false;
         }
-
         if (!cellList.isEditable()){
             cellNumber = mainController.getTgChoiceBox().getValue();
             haveAListOfCells = false;
         }
-
 
         int splitPlace = commandToMultiple.indexOf(";")+1;
         String possibleComment = commandToMultiple.substring(splitPlace);
@@ -47,7 +46,6 @@ public class MmlCommandMultiplication {
                         .append(possibleComment.trim().length() >= 1 ? "         ! " + possibleComment.trim() + " !" : "")
                         .append(MakeCMD.Constants.NEW_LINE);
             }
-
         } else if (commandToMultiple.contains("{tg}") && !haveAListOfTgs){
             for (int i = 0; i < tgNumber; i++){
                 String tmpCommand = commandToMultiple.substring(0,splitPlace);
@@ -56,7 +54,6 @@ public class MmlCommandMultiplication {
                         .append(possibleComment.trim().length() >= 1 ? "         ! " + possibleComment.trim() + " !" : "")
                         .append(MakeCMD.Constants.NEW_LINE);
             }
-
         }
 
         if (commandToMultiple.contains("{cell}") && haveAListOfCells){
@@ -67,7 +64,6 @@ public class MmlCommandMultiplication {
                         .append(possibleComment.trim().length() >= 1 ? "         ! " + possibleComment.trim() + " !" : "")
                         .append(MakeCMD.Constants.NEW_LINE);
             }
-
         } else if (commandToMultiple.contains("{cell}") && !haveAListOfCells){
             for (int i = 0; i < cellNumber; i++){
                 String tmpCommand = commandToMultiple.substring(0,splitPlace);
@@ -76,9 +72,7 @@ public class MmlCommandMultiplication {
                         .append(possibleComment.trim().length() >= 1 ? "         ! " + possibleComment.trim() + " !" : "")
                         .append(MakeCMD.Constants.NEW_LINE);
             }
-
         }
-
         return multipliedLine.toString();
     }
 }

@@ -19,28 +19,24 @@ public class SaveCmdTextAction implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-
         //Set extension filter
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("CMD files (*.cmd)", "*.cmd");
         fileChooser.getExtensionFilters().add(extFilter);
-
         //Show save file dialog
         File file = fileChooser.showSaveDialog(cmdText.getScene().getWindow());
 
         if(file != null){
-            SaveFile(cmdText.getText(), file);
+            saveFile(cmdText.getText(), file);
         }
     }
 
-    private void SaveFile(String content, File file){
+    private void saveFile(String content, File file){
         try {
-            FileWriter fileWriter = null;
-
-            fileWriter = new FileWriter(file);
+            FileWriter  fileWriter = new FileWriter(file);
             fileWriter.write(content);
             fileWriter.close();
         } catch (IOException ex) {
-            System.out.println(ex.toString());
+//            System.out.println(ex.toString());
         }
 
     }

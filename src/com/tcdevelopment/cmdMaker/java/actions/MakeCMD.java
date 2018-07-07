@@ -6,7 +6,6 @@ import javafx.event.EventHandler;
 
 public class MakeCMD implements EventHandler<ActionEvent> {
 
-
     private MainController mainController;
 
     public MakeCMD(MainController mainController) {
@@ -18,9 +17,11 @@ public class MakeCMD implements EventHandler<ActionEvent> {
         {
             String[] txtTable = mainController.getTxtText().getText().split(Constants.NEW_LINE);
             StringBuilder cmdTextBuilder = new StringBuilder("");
-            cmdTextBuilder.append(Constants.BEFORE_TEST_COMMENT).append(Constants.TC_VARIABLES).append(Constants.MAIN_COMMANDS_SEPARATOR)
-                    .append(Constants.NEW_LINE);
+            cmdTextBuilder.append(Constants.BEFORE_TEST_COMMENT).append(Constants.TC_VARIABLES)
+                    .append(Constants.MAIN_COMMANDS_SEPARATOR).append(Constants.NEW_LINE);
             for (String str: txtTable) {
+                MakeCMD:refactorToLongCommandLine(str);
+                str = refactorToLongCommandLine(str);
                 str = replaceParameter(str, new ParameterPairs("cell"));
                 str = replaceParameter(str, new ParameterPairs("tg"));
                 if (str.matches(" *")){
@@ -36,9 +37,20 @@ public class MakeCMD implements EventHandler<ActionEvent> {
                 }
             }
             mainController.getCmdText().setText(cmdTextBuilder.toString());
-
-
         }
+    }
+
+    private static String refactorToLongCommandLine(String str) {
+        if (str.length() > 140){
+            int indexToSplit1 = str.indexOf(" ",60);
+            int indexToSplit2 = str.indexOf(" ",120);
+            str = str.substring(0,indexToSplit1) + " !\n!" + str.substring(indexToSplit1,indexToSplit2) +
+                    " !\n!" + str.substring(indexToSplit2);
+        }else if (str.length() > 70){
+            int indexToSplit = str.indexOf(" ",60);
+            str = str.substring(0,indexToSplit) + " !\n!" + str.substring(indexToSplit);
+        }
+        return str;
     }
 
     public String replaceParameter(String str, ParameterPairs pair) {
@@ -65,7 +77,7 @@ public class MakeCMD implements EventHandler<ActionEvent> {
         public static final String BEFORE_TEST_COMMENT = "!FILL AND RUN BELOW COMMANDS IF NEEDED!\n\n";
 
         public static final String MAIN_COMMANDS_SEPARATOR = "!-----------------------------------------------! \n" +
-                                                     "!------------------Main commands----------------! \n" +
-                                                     "!-----------------------------------------------! \n" ;
+                                                             "!------------------Main commands----------------! \n" +
+                                                             "!-----------------------------------------------! \n" ;
     }
 }
